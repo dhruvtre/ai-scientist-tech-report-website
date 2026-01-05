@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why LLMs Aren't Scientists Yet | Lossfunk Research</title>
+    <meta name="description" content="We built a pipeline of six LLM agents to do autonomous ML research. Three of four attempts failed. Here's everything we learned.">
+    <meta name="authors" content="Dhruv Trehan, Paras Chopra">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Why LLMs Aren't Scientists Yet">
+    <meta property="og:description" content="Lessons from Four Autonomous Research Attempts">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="images/figures/system_diagram-1.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="images/icons/lossfunk-logo.jpg">
+    <link rel="apple-touch-icon" href="images/icons/lossfunk-logo.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="header-left">
+            <img src="images/icons/lossfunk-logo.jpg" alt="Lossfunk" class="header-logo">
+            <span class="header-title">Report: Why LLMs Aren't Scientists Yet</span>
+        </div>
+        <div class="header-right">
+            <a href="https://github.com/Lossfunk/ai-scientist-artefacts-v1" class="header-btn" target="_blank">GitHub</a>
+            <a href="https://openreview.net/forum?id=B6ZrLXou3u" class="header-btn" target="_blank">OpenReview</a>
+            <a href="https://drive.google.com/file/d/1w1BGZyxzNlYy2TGdqIiZTPSzFFv1wkjV/view?usp=sharing" class="header-btn" target="_blank">arXiv</a>
+            <button id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#tldr">TL;DR</a></li>
+            <li><a href="#what-we-built">What We Built</a></li>
+            <li><a href="#the-success">The Success</a></li>
+            <li><a href="#failure-modes">Failure Modes</a></li>
+            <li><a href="#what-we-learned">What We Learned</a></li>
+            <li><a href="#what-lies-ahead">What Lies Ahead</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <!-- Header -->
+            <header class="article-header">
+                <h1>Why LLMs Aren't Scientists Yet</h1>
+                <p class="subtitle"><strong>We built a pipeline of six LLM agents to do autonomous ML research. Three of four attempts failed. Here's everything we learned.</strong></p>
+            </header>
+
+            <p class="meta-block">This is a summary of our technical report: <em>Why LLMs Aren't Scientists Yet: Lessons from Four Autonomous Research Attempts</em>. This report details the work behind our paper "The Consistency Confound," accepted at Agents4Science 2025—the first scientific conference requiring AI as primary author, where it passed both AI and human review.</p>
+
+            
+            <!-- TL;DR -->
+            <section id="tldr" class="tldr">
+                <h2>TL;DR</h2>
+                <ul>
+                    <li>We built <strong>6 AI agents</strong> using Gemini 2.5 Pro and Claude Code, mapped to stages of the scientific workflow from idea to hypothesis generation, experiment execution, evaluation and paper writing.</li>
+                    <li>We tested our agents on 4 research ideas across ML sub-domains such as Multi-Agent RL, World Models, and AI Safety. 3 ideas failed during implementation or evaluation. Only 1 succeeded and was published at Agents4Science 2025.</li>
+                    <li>We document 6 recurring failure modes: bias toward training data, implementation drift under pressure, memory/context degradation, overexcitement that declares success despite obvious failures, and gaps in domain intelligence and scientific taste.</li>
+                    <li>We also derive 4 design principles for more robust AI scientist systems, discuss the limitations of training and evaluation data for future autonomous science, and release all prompts, artifacts, and outputs at <a href="https://github.com/Lossfunk/ai-scientist-artefacts-v1" target="_blank">github.com/Lossfunk/ai-scientist-artefacts-v1</a>.</li>
+                </ul>
+            </section>
+
+            <!-- What We Built and Tested -->
+            <section id="what-we-built" class="content-section">
+                <h2>What We Built and Tested</h2>
+
+                <p>We wanted to see how far current LLMs could go without significant scaffolding or human hand-holding. The goal: take a research idea from conception to publication with maximum autonomy.</p>
+
+                <p>Our system comprised six specialized agents—all using Gemini 2.5 Pro for its long context length—mapped to stages of the scientific workflow: Idea Generation, Hypotheses Generation, Experiment Planning, Output Evaluation, Revision, and Paper Outlining. Claude Code handled all implementation and paper writing.</p>
+
+                <figure>
+                    <img src="images/figures/system_diagram-1.png" alt="Autonomous Research Pipeline showing six specialized agents: Idea Generation, Hypotheses Generation, Experimental Planning, Output Evaluation, Paper Outlining, and Revision, with Claude Code at the center">
+                    <figcaption>Figure 1: Autonomous Research Pipeline showing the six specialized agents</figcaption>
+                </figure>
+
+                <p>Each agent received the repository state as part of its prompt context, along with tools for reading and writing files. This kept context engineering minimal—agents decided which files to consult, just as a researcher would navigate their own project folder.</p>
+
+                <figure>
+                    <img src="images/figures/prompt_structure_tr.png" alt="Structure of the agent prompt template">
+                    <figcaption>Figure 2: Structure of the agent prompt template</figcaption>
+                </figure>
+
+                <p>To select research ideas, we started with a corpus of 135+ papers from top-tier venues across three ML subdomains: World Models, Multi-Agent RL, and AI Safety. After running four zero-shot LLM reviewers and consulting authors of the seed papers for feasibility input, we narrowed to four candidates for full pipeline execution.</p>
+
+                <figure>
+                    <img src="images/figures/selection_funnel-1.png" alt="Paper selection funnel from 135+ papers to 4 candidates">
+                    <figcaption>Figure 3: Paper selection funnel from initial corpus to final candidates</figcaption>
+                </figure>
+
+                <p>Of these four, three failed during implementation or evaluation. Only one—from the AI Safety domain—completed the pipeline.</p>
+
+                <figure>
+                    <img src="images/figures/research_attempts_summary.png" alt="Summary of four research attempts: MARL-1, WM-1, WM-2, AS-1">
+                    <figcaption>Table 1: Summary of four research implementation attempts and their outcomes</figcaption>
+                </figure>
+            </section>
+
+            <!-- The Success -->
+            <section id="the-success" class="content-section">
+                <h2>The Success: When It Actually Worked</h2>
+
+                <p>Of our four candidates, only the AI Safety idea completed the pipeline—and not by accident. The other three required training complex model architectures or intricate multi-agent coordination. This one focused on data analysis: sampling model responses and computing entropy metrics. No training loops, no gradient propagation. The simpler implementation meant that when issues arose, they were recoverable rather than fatal.</p>
+
+                <p>The idea was to use semantic entropy—a method effective for hallucination detection—as a black-box signal for jailbreak attempts. The intuition: jailbreak prompts create internal conflict, manifesting as inconsistent responses. Initial experiments showed it failing. Rather than abandoning the idea, the system pivoted from "test if SE works" to "investigate why SE fails." This pivot led to our core finding: the <strong>Consistency Confound</strong>. Well-aligned models produce consistent, templated refusals—exactly what semantic entropy interprets as "safe" behavior. Stronger alignment makes detection <em>worse</em>.</p>
+
+                <figure>
+                    <img src="images/figures/evolution_semantic_entropy.png" alt="Experimental results showing the Consistency Confound phenomenon">
+                    <figcaption>Figure 4: Experimental results showing the Consistency Confound phenomenon</figcaption>
+                </figure>
+
+                <p>The paper was accepted to Agents4Science 2025. The conference accepted 48/254 valid submissions and our paper was a borderline accept, passing correctness checks and a code audit. Reviewers, both AI and Human, recognized that well-executed negative results are a contribution. The human reviewer noted that while the contribution is primarily a negative result, it identifies "a clear and reproducible failure mode."</p>
+
+                <figure>
+                    <img src="images/figures/review_highlights.png" alt="Agents4Science 2025 review scores from AI and human reviewers">
+                    <figcaption>Table 2: Agents4Science 2025 review scores from AI and human reviewers</figcaption>
+                </figure>
+
+                <p>That said, as part of the Agents4Science submission, we had to complete an AI Involvement Checklist detailing human contributions at each stage and our contribution was only 95% autonomous. We still intervened to select ideas, meta-prompt during execution, and temper overoptimistic claims during paper writing.</p>
+
+                <figure>
+                    <img src="images/figures/ai_involvement.png" alt="AI Involvement Checklist showing human intervention points">
+                    <figcaption>Table 3: AI Involvement Checklist showing human intervention points</figcaption>
+                </figure>
+            </section>
+
+            <!-- Six Ways LLM Scientists Break -->
+            <section id="failure-modes" class="content-section">
+                <h2>Six Ways LLM Scientists Break</h2>
+
+                <p>Through our experiments, six failure patterns emerged consistently across attempts. These reveal systematic limitations in current LLMs for autonomous research.</p>
+
+                <h3>1. Bias on Training Data</h3>
+                <p>Models defaulted to outdated libraries and approaches from their training data, overriding explicit instructions. Claude Code repeatedly used deprecated Modal commands and insisted on unmaintained packages like <code>hanabi-learning-env==0.5.2</code>, ignoring instructions to use modern alternatives. Even after errors, the system would diagnose the problem as a library issue and regress to training data versions, insisting that was the right approach.</p>
+
+                <figure>
+                    <img src="images/figures/TrainingData_Bias_Figure-2-1.png" alt="Training data bias patterns across different implementation contexts">
+                    <figcaption>Figure 5: Training data bias patterns showing model defaults to outdated approaches</figcaption>
+                </figure>
+
+                <h3>2. Implementation Drift</h3>
+                <p>When facing technical barriers, systems progressively simplified implementations rather than solving root causes. Our differentiable tree search planner devolved into a basic actor-critic approach when training loops timed out. A single error would trigger progressive simplification rather than debugging—in WM-2, one mistake in implementing the Dreamer baseline cascaded into abandoning the core research contribution entirely.</p>
+
+                <figure>
+                    <img src="images/figures/implementation_drift_figure_tech_report-1.png" alt="Example of implementation drift showing progressive simplification">
+                    <figcaption>Figure 6: Example of implementation drift showing progressive simplification</figcaption>
+                </figure>
+
+                <h3>3. Memory and Context Issues</h3>
+                <p>Over long-duration tasks, agents lost track of previous decisions, hyperparameters, and experimental configurations. Baseline implementations used entirely different hyperparameters than those specified in plans. During paper writing, the agent forgot to consult early context files entirely—producing a draft that read like a list of experiments with no origin story or motivation. To mitigate this, we introduced session logging prompts (shown below) that required Claude Code to document decisions and artifacts at the end of each session—one of several memory-like abstractions we had to build.</p>
+
+                <figure>
+                    <img src="images/figures/session_logging_prompt-1.png" alt="Session logging prompt template for maintaining context across sessions">
+                    <figcaption>Figure 7: Session logging prompt template for maintaining context across sessions</figcaption>
+                </figure>
+
+                <h3>4. Overexcitement and Eureka Instinct</h3>
+                <p>Models reported success despite clear experimental failures. Degenerate outputs (MAE=0, dummy reward signals) were described as "successful hypothesis validation." Paper drafts made inflated claims like "first ever comprehensive assessment" even when results were statistically invalid. This likely stems from RLHF training, where models are rewarded for being agreeable and helpful—not for scientific skepticism or detecting confirmation bias.</p>
+
+                <figure class="figure-pair">
+                    <img src="images/figures/Eureka+Instinct+1-1.png" alt="Eureka Instinct during execution phase">
+                    <img src="images/figures/Eureka+Instinct+2-1.png" alt="Eureka Instinct during paper writing phase">
+                    <figcaption>Figure 8: Examples of the "Eureka Instinct" during execution (left) and paper writing (right) phases</figcaption>
+                </figure>
+
+                <h3>5 & 6. Lack of Domain Intelligence and Scientific Taste</h3>
+                <p>Agents struggled with the tacit knowledge that experienced researchers take for granted. They failed to recognize that Dreamer requires online learning (not offline frames) or that a 50,000-depth parameter was computationally absurd for a 6-hour GPU limit. In one case, the system proceeded with hypothesis testing when baseline performance was 95% below established benchmarks—making any comparative analysis scientifically meaningless.</p>
+
+                <p>Beyond operationalizing research, models missed fundamental flaws in experimental design. Hypotheses were too simplistic to draw conclusions from, statistical validity was ignored (single-seed experiments), and the system misinterpreted a seed paper's future work section as endorsement of an approach the authors never intended.</p>
+            </section>
+
+            <!-- What We Learned -->
+            <section id="what-we-learned" class="content-section">
+                <h2>What We Learned</h2>
+
+                <p>From these failures, we derive four design principles for building more robust AI scientist systems:</p>
+
+                <div class="principle">
+                    <h3>1. Start Abstract, Ground Later</h3>
+                    <p>Introduce technical details gradually through the workflow. Early specificity anchors models to outdated training data patterns—keep ideation high-level and save implementation details for execution.</p>
+                </div>
+
+                <div class="principle">
+                    <h3>2. Verify Everything</h3>
+                    <p>Implement verification at every pipeline stage. Ground evaluations in raw data and logs, not LLM interpretations. The Goodfire team calls the alternative "p-hacking and eureka-ing"—and we saw plenty of it.</p>
+                </div>
+
+                <div class="principle">
+                    <h3>3. Plan for Failure and Recovery</h3>
+                    <p>Design multi-turn agentic workflows, not zero-shot generation. Separate code generation from execution. Include checkpointing and explicit failure mode controls. Scientific discovery is long-duration; errors will accumulate.</p>
+                </div>
+
+                <div class="principle">
+                    <h3>4. Log Everything</h3>
+                    <p>Maintain comprehensive session logs and metrics across runs. This supports both autonomous execution and human review—and becomes essential when debugging why an agent made a decision three sessions ago.</p>
+                </div>
+            </section>
+
+            <!-- What Lies Ahead -->
+            <section id="what-lies-ahead" class="content-section">
+                <h2>What Lies Ahead</h2>
+
+                <p>Our work has obvious limitations: only four ideas, three ML subdomains, no systematic ablations, and failure modes identified through observation rather than quantitative measurement. We see this as a starting point.</p>
+
+                <p>The broader picture is becoming clearer. Even OpenAI's "AI for Science" initiative is hiring "world-class academics who are completely AI-pilled" to work alongside models—not replace them. As Fields Medalist Timothy Gowers noted in recent experiments with GPT-5: "We have not yet reached the stage where an LLM is likely to have the main idea for solving a difficult problem." But physicist Brian Keith Spears reported 1000x acceleration in workflows through human-AI collaboration.</p>
+
+                <p>We're going to see many more agents and platforms for AI-assisted science. But before we get to truly autonomous discovery, three problems need solving: long-horizon coherence (current models reliably operate for ~2.5 hours), research taste that can distinguish meaningful from trivial contributions, and the missing data for training and evaluating scientific reasoning—including records of failed attempts and the "negative space" of why obvious approaches don't work.</p>
+
+                <p>For now, the path forward is human-AI collaboration that generates the workflow data to train the next generation of research agents.</p>
+            </section>
+
+            <!-- Footer -->
+            <footer class="article-footer">
+                <div class="footer-links">
+                    <p>Read the full technical report: <a href="https://drive.google.com/file/d/1w1BGZyxzNlYy2TGdqIiZTPSzFFv1wkjV/view?usp=sharing" target="_blank">Full Report (PDF)</a></p>
+                    <p>All prompts, artifacts, and outputs: <a href="https://github.com/Lossfunk/ai-scientist-artefacts-v1" target="_blank">GitHub</a></p>
+                    <p>Reviews of our Agents4Science paper: <a href="https://openreview.net/forum?id=B6ZrLXou3u" target="_blank">OpenReview</a></p>
+                </div>
+
+                <div class="authors">
+                    <p><strong>Dhruv Trehan & Paras Chopra — Lossfunk Research</strong></p>
+                    <p>
+                        <a href="mailto:dhruv.trehan@lossfunk.com">dhruv.trehan@lossfunk.com</a> |
+                        <a href="mailto:paras@lossfunk.com">paras@lossfunk.com</a>
+                    </p>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
