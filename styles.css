@@ -118,7 +118,7 @@ body {
 .header-title {
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--text-primary);
 }
 
 .header-right {
@@ -182,7 +182,7 @@ body {
     display: block;
     padding: var(--space-2) var(--space-3);
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--text-primary);
     text-decoration: none;
     border-left: 2px solid transparent;
     border-radius: 0 4px 4px 0;
@@ -553,8 +553,14 @@ figcaption {
     }
 
     .header-btn {
-        padding: var(--space-1) var(--space-2);
-        font-size: 0.8rem;
+        padding: var(--space-2);
+        font-size: 0;
+        gap: 0;
+    }
+
+    .header-btn svg {
+        width: 20px;
+        height: 20px;
     }
 
     .header-right {
