@@ -5,12 +5,12 @@
     --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 
     /* Font sizes */
-    --text-sm: 0.875rem;
-    --text-base: 1.1rem;
-    --text-lg: 1.25rem;
-    --text-xl: 1.5rem;
-    --text-2xl: 1.75rem;
-    --text-3xl: 2.5rem;
+    --text-sm: 0.8rem;
+    --text-base: 1rem;
+    --text-lg: 1.1rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
 
     /* Spacing */
     --space-1: 0.25rem;
@@ -410,11 +410,14 @@ figure img {
     flex-wrap: wrap;
     gap: var(--space-4);
     justify-content: center;
+    align-items: center;
 }
 
 .figure-pair img {
-    flex: 1 1 300px;
+    flex: 0 1 auto;
     max-width: calc(50% - var(--space-2));
+    height: auto;
+    object-fit: contain;
 }
 
 @media (max-width: 600px) {
