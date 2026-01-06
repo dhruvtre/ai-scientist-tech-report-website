@@ -87,7 +87,7 @@
 
             <!-- What We Built and Tested -->
             <section id="system-overview" class="content-section">
-                <h2>What We Built and Tested</h2>
+                <h2>Problem Definition and System Overview</h2>
 
                 <p>We wanted to see how far current LLMs could go without significant scaffolding or human hand-holding. The goal: take a research idea from conception to publication with maximum autonomy.</p>
 
@@ -100,29 +100,24 @@
 
                 <p>Each agent received the repository state as part of its prompt context, along with tools for reading and writing files. This kept context engineering minimal. Agents decided which files to consult, just as a researcher would navigate their own project folder.</p>
 
-                <figure>
-                    <img src="images/figures/prompt_structure_tr.png" alt="Structure of the agent prompt template">
-                    <figcaption>Figure 2: Structure of the agent prompt template</figcaption>
-                </figure>
-
                 <p>To select research ideas, we started with a corpus of 135+ papers from top-tier venues across three ML subdomains: World Models, Multi-Agent RL, and AI Safety. After running four zero-shot LLM reviewers and consulting authors of the seed papers for feasibility input, we narrowed to four candidates for full pipeline execution.</p>
 
-                <figure>
+                <figure class="figure-pair">
+                    <img src="images/figures/prompt_structure_tr.png" alt="Structure of the agent prompt template">
                     <img src="images/figures/selection_funnel-1.png" alt="Paper selection funnel from 135+ papers to 4 candidates">
-                    <figcaption>Figure 3: Paper selection funnel from initial corpus to final candidates</figcaption>
+                    <figcaption>Figure 2: Agent prompt template structure (left) and paper selection funnel from initial corpus to final candidates (right)</figcaption>
                 </figure>
 
                 <p>Of these four, three failed during implementation or evaluation. Only one, from the AI Safety domain, completed the pipeline.</p>
 
                 <figure>
                     <img src="images/figures/research_attempts_summary.png" alt="Summary of four research attempts: MARL-1, WM-1, WM-2, AS-1">
-                    <figcaption>Table 1: Summary of four research implementation attempts and their outcomes</figcaption>
                 </figure>
             </section>
 
             <!-- The Success -->
             <section id="accepted-ai-paper" class="content-section">
-                <h2>The Success: When It Actually Worked</h2>
+                <h2>Our Agents4Science 2025 Submission</h2>
 
                 <p>Of our four candidates, only the AI Safety idea completed the pipeline, and not by accident. The other three required training complex model architectures or intricate multi-agent coordination. This one focused on data analysis: sampling model responses and computing entropy metrics. No training loops, no gradient propagation. The simpler implementation meant that when issues arose, they were recoverable rather than fatal.</p>
 
@@ -130,7 +125,6 @@
 
                 <figure>
                     <img src="images/figures/evolution_semantic_entropy.png" alt="Experimental results showing the Consistency Confound phenomenon">
-                    <figcaption>Figure 4: Experimental results showing the Consistency Confound phenomenon</figcaption>
                 </figure>
 
                 <p>The paper was accepted to Agents4Science 2025. The conference accepted 48/254 valid submissions and our paper was a borderline accept, passing correctness checks and a code audit. Reviewers, both AI and Human, recognized that well-executed negative results are a contribution. The human reviewer noted that while the contribution is primarily a negative result, it identifies "a clear and reproducible failure mode."</p>
@@ -144,30 +138,25 @@
 
                 <figure>
                     <img src="images/figures/ai_involvement.png" alt="AI Involvement Checklist showing human intervention points">
-                    <figcaption>Table 3: AI Involvement Checklist showing human intervention points</figcaption>
                 </figure>
             </section>
 
             <!-- Six Ways LLM Scientists Break -->
             <section id="observed-failure-modes" class="content-section">
-                <h2>Six Ways LLM Scientists Break</h2>
+                <h2>Observed Failure Modes and Mitigation</h2>
 
                 <p>Through our experiments, six failure patterns emerged consistently across attempts. These reveal systematic limitations in current LLMs for autonomous research.</p>
 
                 <h3>1. Bias on Training Data</h3>
                 <p>Models defaulted to outdated libraries and approaches from their training data, overriding explicit instructions. Claude Code repeatedly used deprecated Modal commands and insisted on unmaintained packages like <code>hanabi-learning-env==0.5.2</code>, ignoring instructions to use modern alternatives. Even after errors, the system would diagnose the problem as a library issue and regress to training data versions, insisting that was the right approach.</p>
 
-                <figure>
-                    <img src="images/figures/TrainingData_Bias_Figure-2-1.png" alt="Training data bias patterns across different implementation contexts">
-                    <figcaption>Figure 5: Training data bias patterns showing model defaults to outdated approaches</figcaption>
-                </figure>
-
                 <h3>2. Implementation Drift</h3>
                 <p>When facing technical barriers, systems progressively simplified implementations rather than solving root causes. Our differentiable tree search planner devolved into a basic actor-critic approach when training loops timed out. A single error would trigger progressive simplification rather than debugging. In WM-2, one mistake in implementing the Dreamer baseline cascaded into abandoning the core research contribution entirely.</p>
 
-                <figure>
+                <figure class="figure-pair">
+                    <img src="images/figures/TrainingData_Bias_Figure-2-1.png" alt="Training data bias patterns across different implementation contexts">
                     <img src="images/figures/implementation_drift_figure_tech_report-1.png" alt="Example of implementation drift showing progressive simplification">
-                    <figcaption>Figure 6: Example of implementation drift showing progressive simplification</figcaption>
+                    <figcaption>Training data bias patterns (left) and implementation drift showing progressive simplification (right)</figcaption>
                 </figure>
 
                 <h3>3. Memory and Context Issues</h3>
@@ -195,7 +184,7 @@
 
             <!-- What We Learned -->
             <section id="design-takeaways" class="content-section">
-                <h2>What We Learned</h2>
+                <h2>Design Takeaways for AI Scientist Systems</h2>
 
                 <p>From these failures, we derive four design principles for building more robust AI scientist systems:</p>
 
@@ -222,7 +211,7 @@
 
             <!-- What Lies Ahead -->
             <section id="limitations-and-discussion" class="content-section">
-                <h2>What Lies Ahead</h2>
+                <h2>Limitations and Discussion</h2>
 
                 <p>Our work has obvious limitations: only four ideas, three ML subdomains, no systematic ablations, and failure modes identified through observation rather than quantitative measurement. We see this as a starting point.</p>
 
