@@ -32,9 +32,18 @@
             <span class="header-title">Report: Why LLMs Aren't Scientists Yet</span>
         </div>
         <div class="header-right">
-            <a href="https://github.com/Lossfunk/ai-scientist-artefacts-v1" class="header-btn" target="_blank">GitHub</a>
-            <a href="https://openreview.net/forum?id=B6ZrLXou3u" class="header-btn" target="_blank">OpenReview</a>
-            <a href="https://drive.google.com/file/d/1w1BGZyxzNlYy2TGdqIiZTPSzFFv1wkjV/view?usp=sharing" class="header-btn" target="_blank">arXiv</a>
+            <a href="https://openreview.net/forum?id=B6ZrLXou3u" class="header-btn" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                AI-Written Paper
+            </a>
+            <a href="https://github.com/Lossfunk/ai-scientist-artefacts-v1" class="header-btn" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                AI Research Outputs
+            </a>
+            <a href="https://drive.google.com/file/d/1w1BGZyxzNlYy2TGdqIiZTPSzFFv1wkjV/view?usp=sharing" class="header-btn" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Full Report
+            </a>
             <button id="theme-toggle" aria-label="Toggle dark mode">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
@@ -46,11 +55,11 @@
     <nav class="sidebar">
         <ul>
             <li><a href="#tldr">TL;DR</a></li>
-            <li><a href="#what-we-built">What We Built</a></li>
-            <li><a href="#the-success">The Success</a></li>
-            <li><a href="#failure-modes">Failure Modes</a></li>
-            <li><a href="#what-we-learned">What We Learned</a></li>
-            <li><a href="#what-lies-ahead">What Lies Ahead</a></li>
+            <li><a href="#system-overview">System Overview</a></li>
+            <li><a href="#accepted-ai-paper">Accepted AI Paper</a></li>
+            <li><a href="#observed-failure-modes">Observed Failure Modes</a></li>
+            <li><a href="#design-takeaways">Design Takeaways</a></li>
+            <li><a href="#limitations-and-discussion">Limitations and Discussion</a></li>
         </ul>
     </nav>
 
@@ -77,7 +86,7 @@
             </section>
 
             <!-- What We Built and Tested -->
-            <section id="what-we-built" class="content-section">
+            <section id="system-overview" class="content-section">
                 <h2>What We Built and Tested</h2>
 
                 <p>We wanted to see how far current LLMs could go without significant scaffolding or human hand-holding. The goal: take a research idea from conception to publication with maximum autonomy.</p>
@@ -112,7 +121,7 @@
             </section>
 
             <!-- The Success -->
-            <section id="the-success" class="content-section">
+            <section id="accepted-ai-paper" class="content-section">
                 <h2>The Success: When It Actually Worked</h2>
 
                 <p>Of our four candidates, only the AI Safety idea completed the pipeline—and not by accident. The other three required training complex model architectures or intricate multi-agent coordination. This one focused on data analysis: sampling model responses and computing entropy metrics. No training loops, no gradient propagation. The simpler implementation meant that when issues arose, they were recoverable rather than fatal.</p>
@@ -140,7 +149,7 @@
             </section>
 
             <!-- Six Ways LLM Scientists Break -->
-            <section id="failure-modes" class="content-section">
+            <section id="observed-failure-modes" class="content-section">
                 <h2>Six Ways LLM Scientists Break</h2>
 
                 <p>Through our experiments, six failure patterns emerged consistently across attempts. These reveal systematic limitations in current LLMs for autonomous research.</p>
@@ -185,7 +194,7 @@
             </section>
 
             <!-- What We Learned -->
-            <section id="what-we-learned" class="content-section">
+            <section id="design-takeaways" class="content-section">
                 <h2>What We Learned</h2>
 
                 <p>From these failures, we derive four design principles for building more robust AI scientist systems:</p>
@@ -212,7 +221,7 @@
             </section>
 
             <!-- What Lies Ahead -->
-            <section id="what-lies-ahead" class="content-section">
+            <section id="limitations-and-discussion" class="content-section">
                 <h2>What Lies Ahead</h2>
 
                 <p>Our work has obvious limitations: only four ideas, three ML subdomains, no systematic ablations, and failure modes identified through observation rather than quantitative measurement. We see this as a starting point.</p>
