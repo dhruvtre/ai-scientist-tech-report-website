@@ -95,7 +95,7 @@
 
                 <figure>
                     <img src="images/figures/system_diagram-1.png" alt="Autonomous Research Pipeline showing six specialized agents: Idea Generation, Hypotheses Generation, Experimental Planning, Output Evaluation, Paper Outlining, and Revision, with Claude Code at the center">
-                    <figcaption>Figure 1: Autonomous Research Pipeline showing the six specialized agents</figcaption>
+                    <figcaption>Figure 1 from the report: Autonomous Research Pipeline showing the six agent modules and shared file system artifacts</figcaption>
                 </figure>
 
                 <p>Each agent received the repository state as part of its prompt context, along with tools for reading and writing files. This kept context engineering minimal. Agents decided which files to consult, just as a researcher would navigate their own project folder.</p>
@@ -105,7 +105,7 @@
                 <figure class="figure-pair">
                     <img src="images/figures/prompt_structure_tr.png" alt="Structure of the agent prompt template">
                     <img src="images/figures/selection_funnel-1.png" alt="Paper selection funnel from 135+ papers to 4 candidates">
-                    <figcaption>Figure 2: Agent prompt template structure (left) and paper selection funnel from initial corpus to final candidates (right)</figcaption>
+                    <figcaption>Figures 2 and 3 from the report: Agent prompt template structure (left) and selection funnel from 135+ papers to 4 candidates (right)</figcaption>
                 </figure>
 
                 <p>Of these four, three failed during implementation or evaluation. Only one, from the AI Safety domain, completed the pipeline.</p>
@@ -131,7 +131,7 @@
 
                 <figure>
                     <img src="images/figures/review_highlights.png" alt="Agents4Science 2025 review scores from AI and human reviewers">
-                    <figcaption>Table 2: Agents4Science 2025 review scores from AI and human reviewers</figcaption>
+                    <figcaption>Table 2 from the report: Agents4Science 2025 review scores from AI and human reviewers</figcaption>
                 </figure>
 
                 <p>That said, as part of the Agents4Science submission, we had to complete an AI Involvement Checklist detailing human contributions at each stage and our contribution was only 95% autonomous. We still intervened to select ideas, meta-prompt during execution, and temper overoptimistic claims during paper writing.</p>
@@ -156,15 +156,15 @@
                 <figure class="figure-pair">
                     <img src="images/figures/TrainingData_Bias_Figure-2-1.png" alt="Training data bias patterns across different implementation contexts">
                     <img src="images/figures/implementation_drift_figure_tech_report-1.png" alt="Example of implementation drift showing progressive simplification">
-                    <figcaption>Training data bias patterns (left) and implementation drift showing progressive simplification (right)</figcaption>
+                    <figcaption>Figures 4 and 5 from the report: Training data bias patterns (left) and implementation drift showing progressive simplification (right)</figcaption>
                 </figure>
 
                 <h3>3. Memory and Context Issues</h3>
                 <p>Over long-duration tasks, agents lost track of previous decisions, hyperparameters, and experimental configurations. Baseline implementations used entirely different hyperparameters than those specified in plans. During paper writing, the agent forgot to consult early context files entirely, producing a draft that read like a list of experiments with no origin story or motivation. To mitigate this, we introduced session logging prompts (shown below) that required Claude Code to document decisions and artifacts at the end of each session, one of several memory-like abstractions we had to build.</p>
 
-                <figure>
+                <figure class="figure-half">
                     <img src="images/figures/session_logging_prompt-1.png" alt="Session logging prompt template for maintaining context across sessions">
-                    <figcaption>Figure 7: Session logging prompt template for maintaining context across sessions</figcaption>
+                    <figcaption>Figure 7 from the report: Session logging prompt template for maintaining context across sessions</figcaption>
                 </figure>
 
                 <h3>4. Overexcitement and Eureka Instinct</h3>
@@ -173,7 +173,7 @@
                 <figure class="figure-pair">
                     <img src="images/figures/Eureka+Instinct+1-1.png" alt="Eureka Instinct during execution phase">
                     <img src="images/figures/Eureka+Instinct+2-1.png" alt="Eureka Instinct during paper writing phase">
-                    <figcaption>Figure 8: Examples of the "Eureka Instinct" during execution (left) and paper writing (right) phases</figcaption>
+                    <figcaption>Figure 6 from the report: Overexcitement and Eureka Instinct during execution (left) and paper writing (right) phases</figcaption>
                 </figure>
 
                 <h3>5 & 6. Lack of Domain Intelligence and Scientific Taste</h3>
